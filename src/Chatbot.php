@@ -2,6 +2,7 @@
 
 namespace Larabot\Chatbot;
 
+use Illuminate\Support\Facades\Cache;
 use Larabot\Chatbot\Services\NLPService;
 
 class Chatbot
@@ -17,8 +18,11 @@ class Chatbot
 
     public function respond($message)
     {
-        $response = $this->nlpService->getResponse($message);
+        $cacheKey = 'chatbot_response_' . md5($message);
 
-        return $response ?: $this->config['default_response'];
+        return Cache::remember($cacheKey, 3600, function () use ($message) {
+            $response = $this->nlpService->getResponse($message);
+            return $response ?: $this->config['default_response'];
+        });
     }
 }
