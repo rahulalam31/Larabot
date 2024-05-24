@@ -1,0 +1,24 @@
+{
+    "name": "your-namespace/laravel-chatbot",
+    "description": "A chatbot package for Laravel.",
+    "type": "library",
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0|^9.0|^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "YourNamespace\\Chatbot\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "YourNamespace\\Chatbot\\ChatbotServiceProvider"
+            ],
+            "aliases": {
+                "Chatbot": "YourNamespace\\Chatbot\\Facades\\Chatbot"
+            }
+        }
+    }
+}
