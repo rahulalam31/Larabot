@@ -1,35 +1,83 @@
 {
     "name": "rahulalam31/larabot",
-    "description": "A chatbot package for Laravel.",
-    "type": "library",
-    
+    "description": "Laravel Chatbot package",
+    "keywords": [
+        "Rahul Alam",
+        "laravel",
+        "NLP",
+        "openAI",
+        "laravel chatbot",
+        "larabot"
+    ],
+    "homepage": "https://github.com/rahulalam31/larabot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rahul Alam",
+            "email": "rahulalam31@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^8.2",
-        "guzzlehttp/guzzle": "^7.8",
-        "illuminate/support": "^10.0|^11.0",
-        "nesbot/carbon": "^2.71|^3.0"
+        "spatie/laravel-package-tools": "^1.16",
+        "illuminate/contracts": "^10.0||^11.0"
     },
     "require-dev": {
-        "mockery/mockery": "^1.6.6",
-        "orchestra/testbench": "^8.14|^9.0",
-        "pestphp/pest": "^2.24",
-        "spatie/pest-plugin-snapshots": "^2.1",
-        "spatie/phpunit-snapshot-assertions": "^5.1.2",
-        "spatie/temporary-directory": "^2.2"
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
+        "orchestra/testbench": "^9.0.0||^8.22.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-arch": "^2.7",
+        "pestphp/pest-plugin-laravel": "^2.3"
     },
     "autoload": {
         "psr-4": {
-            "Larabot\\Chatbot\\": "src/"
+            "rahulalam31\\Larabot\\": "src/",
+            "rahulalam31\\Larabot\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "rahulalam31\\Larabot\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "clear": "@php vendor/bin/testbench package:purge-larabot --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": [
+            "@composer run prepare",
+            "@php vendor/bin/testbench workbench:build --ansi"
+        ],
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@composer run build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Larabot\\Chatbot\\ChatbotServiceProvider"
+                "rahulalam31\\Larabot\\LarabotServiceProvider"
             ],
             "aliases": {
-                "Chatbot": "Larabot\\Chatbot\\Facades\\Chatbot"
+                "Larabot": "rahulalam31\\Larabot\\Facades\\Larabot"
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
