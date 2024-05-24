@@ -2,7 +2,7 @@
 
 namespace Larabot\Chatbot;
 
-use YourNamespace\Chatbot\Services\NLPService;
+use Larabot\Chatbot\Services\NLPService;
 
 class Chatbot
 {

@@ -19,16 +19,16 @@
     },
     "autoload": {
         "psr-4": {
-            "YourNamespace\\Chatbot\\": "src/"
+            "Larabot\\Chatbot\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "YourNamespace\\Chatbot\\ChatbotServiceProvider"
+                "Larabot\\Chatbot\\ChatbotServiceProvider"
             ],
             "aliases": {
-                "Chatbot": "YourNamespace\\Chatbot\\Facades\\Chatbot"
+                "Chatbot": "Larabot\\Chatbot\\Facades\\Chatbot"
             }
         }
     }

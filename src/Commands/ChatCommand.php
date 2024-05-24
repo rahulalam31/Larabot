@@ -3,7 +3,7 @@
 namespace Larabot\Chatbot\Commands;
 
 use Illuminate\Console\Command;
-use YourNamespace\Chatbot\Chatbot;
+use Larabot\Chatbot\Chatbot;
 
 class ChatCommand extends Command
 {
