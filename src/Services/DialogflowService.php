@@ -4,6 +4,7 @@ namespace Larabot\Chatbot\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\Log;
 
 class DialogflowService implements NLPServiceInterface
@@ -40,5 +41,25 @@ class DialogflowService implements NLPServiceInterface
             Log::error('Dialogflow API request failed: ' . $e->getMessage());
             return null;
         }
+    }
+
+    public function getResponseAsync(string $message): PromiseInterface
+    {
+        return $this->client->postAsync('query', [
+            'json' => [
+                'query' => $message,
+                'lang' => 'en',
+                'sessionId' => uniqid(),
+            ],
+        ])->then(
+            function ($response) {
+                $body = json_decode((string) $response->getBody(), true);
+                return $body['result']['fulfillment']['speech'] ?? null;
+            },
+            function (RequestException $e) {
+                Log::error('Dialogflow API async request failed: ' . $e->getMessage());
+                return null;
+            }
+        );
     }
 }

@@ -4,6 +4,7 @@ namespace Larabot\Chatbot\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\Log;
 
 class OpenAIService implements NLPServiceInterface
@@ -42,5 +43,25 @@ class OpenAIService implements NLPServiceInterface
             Log::error('OpenAI API request failed: ' . $e->getMessage());
             return null;
         }
+    }
+
+    public function getResponseAsync(string $message): PromiseInterface
+    {
+        return $this->client->postAsync('completions', [
+            'json' => [
+                'model' => $this->model,
+                'prompt' => $message,
+                'max_tokens' => 150,
+            ],
+        ])->then(
+            function ($response) {
+                $body = json_decode((string) $response->getBody(), true);
+                return $body['choices'][0]['text'] ?? null;
+            },
+            function (RequestException $e) {
+                Log::error('OpenAI API async request failed: ' . $e->getMessage());
+                return null;
+            }
+        );
     }
 }

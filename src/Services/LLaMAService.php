@@ -4,6 +4,7 @@ namespace Larabot\Chatbot\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Illuminate\Support\Facades\Log;
 
 class LLaMAService implements NLPServiceInterface
@@ -39,5 +40,24 @@ class LLaMAService implements NLPServiceInterface
             Log::error('LLaMA API request failed: ' . $e->getMessage());
             return null;
         }
+    }
+
+    public function getResponseAsync(string $message): PromiseInterface
+    {
+        return $this->client->postAsync('generate', [
+            'json' => [
+                'input' => $message,
+                'model' => 'llama',
+            ],
+        ])->then(
+            function ($response) {
+                $body = json_decode((string) $response->getBody(), true);
+                return $body['output'] ?? null;
+            },
+            function (RequestException $e) {
+                Log::error('LLaMA API async request failed: ' . $e->getMessage());
+                return null;
+            }
+        );
     }
 }
