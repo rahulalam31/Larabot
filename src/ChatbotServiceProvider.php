@@ -14,9 +14,6 @@ class ChatbotServiceProvider extends ServiceProvider
             return new Chatbot($app['config']->get('chatbot'));
         });
 
-        $this->app->singleton('nlpservice', function ($app) {
-            return new Services\NLPService($app['config']->get('chatbot.api_key'));
-        });
     }
 
     public function boot()
