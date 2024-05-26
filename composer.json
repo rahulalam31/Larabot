@@ -41,7 +41,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "rahulalam31\\Larabot\\LarabotServiceProvider"
+                "rahulalam31\\Larabot\\ChatbotServiceProvider"
             ],
             "aliases": {
                 "Larabot": "rahulalam31\\Larabot\\Facades\\Larabot"
